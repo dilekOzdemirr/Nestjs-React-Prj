@@ -1,4 +1,0 @@
-Merhaba hocam bu backend--> npm run start:dev frontend tarafini ise--> npm start ile baslatiniz 
-ve port sorusu gelecek y yaziniz lütfen
-ek olarak sigmadigi için node modulesleri sileceğim lütfen--> npm install
-tesekkurler

@@ -1,12 +1,21 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany, ManyToOne } from 'typeorm';
 import { ProfileType } from './profile-type.entity';
+import { Article } from '../../article/article.entity';
+import { Comment } from '../../comment/comment.entity';
+
+// Kullanıcı rolleri
+export enum UserRole {
+  WRITER = 'writer',
+  READER = 'reader'
+}
+
 //gerçek kişi profili tablosu
-@Entity() 
+@Entity()
 export class Profile {
   @PrimaryGeneratedColumn() // Otomatik ID üretimi
   id: number;
 
-  @Column() 
+  @Column()
   username: string;
 
   @Column()
@@ -15,7 +24,18 @@ export class Profile {
   @Column()
   password: string;
 
-  @Column() // Foto URL sakla
+  @Column({ nullable: true }) // Foto URL sakla
   photo: string;
-    profileType: any;
+
+  @Column({ type: 'text', default: UserRole.READER })
+  role: UserRole;
+
+  @ManyToOne(() => ProfileType, (profileType) => profileType.profiles, { nullable: true })
+  profileType: ProfileType;
+
+  @OneToMany(() => Article, (article) => article.author)
+  articles: Article[];
+
+  @OneToMany(() => Comment, (comment) => comment.author)
+  comments: Comment[];
 }
